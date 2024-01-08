@@ -5,6 +5,9 @@ import { PrismaService } from 'src/database/prisma.service';
 import { UserRepository } from './repositories/user.repository';
 import { DatabaseUserRepositoty } from './repositories/database/database-user.repository';
 import { CreateUserUseCase } from './use-cases/create-user-use-case';
+import { UpdateUserUseCase } from './use-cases/update-user-use-case';
+import { DeleteUserUseCase } from './use-cases/delete-user-use-case';
+import { GetUserUseCase } from './use-cases/get-user-use-case';
 
 @Module({
   controllers: [UsersController],
@@ -16,6 +19,9 @@ import { CreateUserUseCase } from './use-cases/create-user-use-case';
       useClass: DatabaseUserRepositoty,
     },
     CreateUserUseCase,
+    UpdateUserUseCase,
+    DeleteUserUseCase,
+    GetUserUseCase,
   ],
 })
 export class UsersModule {}
