@@ -14,6 +14,7 @@ import { UpdateUserUseCase } from './use-cases/update-user-use-case';
 import { DeleteUserUseCase } from './use-cases/delete-user-use-case';
 import { GetUserUseCase } from './use-cases/get-user-use-case';
 import { SelfUserAuthenticationMiddleware } from './middlewares/self-user-authentication.middleware';
+import { LoginUserUseCase } from './use-cases/login-user-use-case';
 
 @Module({
   controllers: [UsersController],
@@ -28,6 +29,7 @@ import { SelfUserAuthenticationMiddleware } from './middlewares/self-user-authen
     UpdateUserUseCase,
     DeleteUserUseCase,
     GetUserUseCase,
+    LoginUserUseCase,
   ],
 })
 export class UsersModule implements NestModule {

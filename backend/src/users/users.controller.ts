@@ -13,6 +13,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateUserUseCase } from './use-cases/update-user-use-case';
 import { DeleteUserUseCase } from './use-cases/delete-user-use-case';
 import { GetUserUseCase } from './use-cases/get-user-use-case';
+import { LoginUserDTO } from './dto/login-user-dto';
+import { LoginUserUseCase } from './use-cases/login-user-use-case';
 
 @Controller('users')
 export class UsersController {
@@ -21,6 +23,7 @@ export class UsersController {
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly deleteUserUseCase: DeleteUserUseCase,
     private readonly getUserUseCase: GetUserUseCase,
+    private readonly loginUserUseCase: LoginUserUseCase,
   ) {}
 
   @Post()
@@ -38,12 +41,21 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async deelete(@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     await this.deleteUserUseCase.execute(id);
   }
 
   @Get(':id')
   async findOneById(@Param('id') id: string) {
     return await this.getUserUseCase.execute(id);
+  }
+
+  // Authenticate Routes
+  @Post('login')
+  async login(@Body() loginUserDto: LoginUserDTO) {
+    return await this.loginUserUseCase.execute(
+      loginUserDto.email,
+      loginUserDto.password,
+    );
   }
 }
