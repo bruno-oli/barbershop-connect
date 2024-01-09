@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { PrismaService } from 'src/database/prisma.service';
@@ -8,6 +13,7 @@ import { CreateUserUseCase } from './use-cases/create-user-use-case';
 import { UpdateUserUseCase } from './use-cases/update-user-use-case';
 import { DeleteUserUseCase } from './use-cases/delete-user-use-case';
 import { GetUserUseCase } from './use-cases/get-user-use-case';
+import { SelfUserAuthenticationMiddleware } from './middlewares/self-user-authentication.middleware';
 
 @Module({
   controllers: [UsersController],
@@ -24,4 +30,13 @@ import { GetUserUseCase } from './use-cases/get-user-use-case';
     GetUserUseCase,
   ],
 })
-export class UsersModule {}
+export class UsersModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(SelfUserAuthenticationMiddleware)
+      .forRoutes(
+        { path: 'users/:id', method: RequestMethod.PATCH },
+        { path: 'users/:id', method: RequestMethod.DELETE },
+      );
+  }
+}

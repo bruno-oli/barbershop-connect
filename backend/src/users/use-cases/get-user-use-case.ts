@@ -7,13 +7,15 @@ class GetUserUseCase {
 
   async execute(id: string) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...user } = await this.usersService.findOneById(id);
+    const user = await this.usersService.findOneById(id);
 
     if (!user) {
       throw new HttpException('Usário não encontrado!', 404);
     }
 
-    return user;
+    const userWithoutPassword = { ...user, password: undefined };
+
+    return userWithoutPassword;
   }
 }
 
