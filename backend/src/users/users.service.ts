@@ -28,4 +28,16 @@ export class UsersService {
   async delete(id: string) {
     return await this.userRepository.delete(id);
   }
+
+  async createRefreshToken(userId: string) {
+    return await this.userRepository.createRefreshToken(userId);
+  }
+
+  async validateRefreshToken(refreshToken: string) {
+    return await this.userRepository.validateRefreshToken(refreshToken);
+  }
+
+  async deleteRefreshToken(refreshToken: string) {
+    return await this.userRepository.deleteRefreshToken(refreshToken);
+  }
 }

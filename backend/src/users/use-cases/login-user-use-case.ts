@@ -20,7 +20,7 @@ class LoginUserUseCase {
       throw new HttpException('Email ou senha inválidos!', 401);
     }
 
-    const expiresIn = '7d';
+    const tokenExpiresIn = '1h';
     const token = sign(
       {
         id: user.id,
@@ -28,10 +28,12 @@ class LoginUserUseCase {
         name: user.name,
       },
       process.env.JWT_SECRET,
-      { expiresIn },
+      { expiresIn: tokenExpiresIn },
     );
 
-    return { token, expiresIn };
+    const refreshToken = await this.usersService.createRefreshToken(user.id);
+
+    return { token, refreshToken };
   }
 }
 

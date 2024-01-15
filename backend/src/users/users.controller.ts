@@ -15,6 +15,8 @@ import { DeleteUserUseCase } from './use-cases/delete-user-use-case';
 import { GetUserUseCase } from './use-cases/get-user-use-case';
 import { LoginUserDTO } from './dto/login-user-dto';
 import { LoginUserUseCase } from './use-cases/login-user-use-case';
+import { UserRefreshTokenDTO } from './dto/user-refresh-token.dto';
+import { UserRefreshTokenUseCase } from './use-cases/user-refresh-token-use-case';
 
 @Controller('users')
 export class UsersController {
@@ -24,6 +26,7 @@ export class UsersController {
     private readonly deleteUserUseCase: DeleteUserUseCase,
     private readonly getUserUseCase: GetUserUseCase,
     private readonly loginUserUseCase: LoginUserUseCase,
+    private readonly userRefreshTokenUseCase: UserRefreshTokenUseCase,
   ) {}
 
   @Post()
@@ -56,6 +59,13 @@ export class UsersController {
     return await this.loginUserUseCase.execute(
       loginUserDto.email,
       loginUserDto.password,
+    );
+  }
+
+  @Post('refresh-token')
+  async refreshToken(@Body() userRefreshTokenDto: UserRefreshTokenDTO) {
+    return this.userRefreshTokenUseCase.execute(
+      userRefreshTokenDto.refresh_token,
     );
   }
 }
