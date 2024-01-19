@@ -28,3 +28,24 @@ model UserRefreshToken {
   user      User   @relation(fields: [userId], references: [id])
   userId    String
 }
+
+model Barber {
+  id       String  @id @default(uuid())
+  name     String
+  email    String  @unique
+  password String
+  gender   String
+  avatar   String? @default("https://cdn-icons-png.flaticon.com/512/3135/3135715.png")
+
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  barber_refresh_tokens BarberRefreshToken[]
+}
+
+model BarberRefreshToken {
+  id String @id @default(uuid())
+
+  expiresIn Int
+  barber    Barber @relation(fields: [barberId], references: [id])
+  barberId  String
+}

@@ -14,7 +14,7 @@ abstract class UserRepository {
   abstract createRefreshToken(userId: string): Promise<UserRefreshToken>;
   abstract validateRefreshToken(
     refreshToken: string,
-  ): Promise<UserRefreshToken>;
+  ): Promise<UserRefreshToken | null>;
   abstract deleteRefreshToken(refreshToken: string): Promise<void>;
 }
 
